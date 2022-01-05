@@ -1,15 +1,22 @@
 version: '3.8'
 
 services:
-  mysql:
-    container_name: db_mysql_docker
-    image: mysql:latest
-    environment:
-      MYSQL_DATABASE: '${DB_NAME}'
-      MYSQL_USER: '${DB_USERNAME}'
-      MYSQL_PASSWORD: '${DB_PASSWORD}'
-      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+  app:
+    container_name: docker-golang
+    build: .
     ports:
-      - 3306:3306
-    # volumes:
-    #   - ./mysql:/var/lib/mysql
+      - 8000:8000
+
+
+  # mysql:
+  #   container_name: db_mysql_docker
+  #   image: mysql:latest
+  #   environment:
+  #     MYSQL_DATABASE: '${DB_NAME}'
+  #     MYSQL_USER: '${DB_USERNAME}'
+  #     MYSQL_PASSWORD: '${DB_PASSWORD}'
+  #     MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+  #   ports:
+  #     - 3306:3306
+  #   volumes:
+  #     - ./mysql:/var/lib/mysql
