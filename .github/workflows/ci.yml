@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: "add .env"
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v2
       env:
         ENV_DB: ${{secrets.ENV_DB}}
       run: echo "$ENV_DB" > .env
