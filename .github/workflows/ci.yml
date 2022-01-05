@@ -9,8 +9,8 @@ jobs:
     name: build
     runs-on: ubuntu-latest
     steps:
-    - uses: appleboy/ssh-action@master
     - name: "remote server"
+      uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST_SSH }}
         username: ${{ secrets.USERNAME_SSH }}
