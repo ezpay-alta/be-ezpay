@@ -1,0 +1,20 @@
+name: CI Backend EzPay
+
+on:
+  push:
+    branches: [ development ]
+  pull_request:
+    branches: [ development ]
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: "remote server"
+    - uses: actions/checkout@v2
+      with:
+        host: ${{ secrets.HOST_SSH }}
+        username: ${{ secrets.USERNAME_SSH }}
+        password: ${{ secrets.PASSWORD_SSH }}
+        script: whoami
