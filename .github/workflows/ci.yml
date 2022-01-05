@@ -36,7 +36,7 @@ jobs:
         username: ${{ secrets.USERNAME_SSH }}
         password: ${{ secrets.PASSWORD_SSH }}
         script: |
-          docker rm -f $(docker ps -a -q)
-          docker pull dwiwidianto/be-ezpay:latest
-          docker run dwiwidianto/be-ezpay:latest
+      
+    - name: "remove all container" 
+      run: docker rm -f $(docker ps -a -q)
 
