@@ -29,10 +29,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-docker
     steps:
-    - name: "remote server"
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST_SSH }}
-        username: ${{ secrets.USERNAME_SSH }}
-        password: ${{ secrets.PASSWORD_SSH }}
-        script: whoami
+      - name: "remote server"
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_SSH }}
+          username: ${{ secrets.USERNAME_SSH }}
+          password: ${{ secrets.PASSWORD_SSH }}
+          script: whoami
