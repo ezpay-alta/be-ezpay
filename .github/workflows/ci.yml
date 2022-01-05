@@ -38,5 +38,5 @@ jobs:
         script: |
       
     - name: "remove all container" 
-      run: docker rm -f $(docker ps -a -q)
+      run: ssh development 'docker rm -f $(docker ps -a -q)' || true
 
