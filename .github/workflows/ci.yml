@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: "remote server"
-    - uses: actions/checkout@v2
+    - uses: ./
       with:
         host: ${{ secrets.HOST_SSH }}
         username: ${{ secrets.USERNAME_SSH }}
