@@ -9,8 +9,8 @@ jobs:
     name: "build image and push to registry"
     runs-on: ubuntu-latest
     steps:
-    - name: "add .env"
     - uses: actions/checkout@v2
+    - name: "add .env"
       env:
         ENV_DB: ${{secrets.ENV_DB}}
       run: echo "$ENV_DB" > .env
