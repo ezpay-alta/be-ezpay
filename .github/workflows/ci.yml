@@ -35,8 +35,11 @@ jobs:
         host: ${{ secrets.HOST_SSH }}
         username: ${{ secrets.USERNAME_SSH }}
         password: ${{ secrets.PASSWORD_SSH }}
-        script: |
       
     - name: "remove all container" 
-      run: ssh development 'docker rm -f $(docker ps -a -q)' || true
+      run: docker rm -f $(docker ps -a -q)
+    # - name: "pull image"
+    #   run: docker pull dwiwidianto/be-ezpay:latest
+    # - name: "Create Docker Container"
+    #   run: docker run -d 
 
