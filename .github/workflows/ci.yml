@@ -35,11 +35,6 @@ jobs:
         host: ${{ secrets.HOST_SSH }}
         username: ${{ secrets.USERNAME_SSH }}
         password: ${{ secrets.PASSWORD_SSH }}
-      
-    - name: "remove all container" 
-      run: docker rm -f $(docker ps -a -q)
-    # - name: "pull image"
-    #   run: docker pull dwiwidianto/be-ezpay:latest
-    # - name: "Create Docker Container"
-    #   run: docker run -d 
+        script: |
+          docker-compose up -d --force-recreate 
 
