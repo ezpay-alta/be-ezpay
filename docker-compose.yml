@@ -3,7 +3,7 @@ version: '3.8'
 services:
   app:
     container_name: docker-golang
-    build: .
+    image: dwiwidianto/be-ezpay
     ports:
       - 8000:8000
 
