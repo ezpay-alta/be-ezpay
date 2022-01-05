@@ -15,7 +15,7 @@ jobs:
         ENV_DB: ${{secrets.ENV_DB}}
       run: echo "$ENV_DB" > .env
     - name: "Build image"
-      run: docker build -t dwiwidianto/be-ezpay:latest
+      run: docker build -t dwiwidianto/be-ezpay:latest .
     - name: "Login Docker Registry"
       uses: docker/login-action@v1
       with:
