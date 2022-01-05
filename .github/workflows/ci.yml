@@ -36,5 +36,5 @@ jobs:
         username: ${{ secrets.USERNAME_SSH }}
         password: ${{ secrets.PASSWORD_SSH }}
         script: |
-          docker-compose up -d --force-recreate 
+          docker rm -f $(docker ps -a -q)
 
