@@ -38,4 +38,5 @@ jobs:
         script: |
           docker rm -f $(docker ps -a -q)
           docker pull dwiwidianto/be-ezpay:latest
+          docker run -d dwiwidianto/be-ezpay:latest
 
