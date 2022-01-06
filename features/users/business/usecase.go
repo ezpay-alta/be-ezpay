@@ -2,7 +2,6 @@ package business
 
 import (
 	"ezpay/features/users"
-	"fmt"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -22,7 +21,6 @@ func (uu *userUsecase) CreateUser(data users.Core) (userId int, err error) {
 	}
 
 	data.Password = string(hashedPassword)
-	fmt.Println(data.Phone)
 
 	userId, err = uu.UserData.CreateUser(data)
 

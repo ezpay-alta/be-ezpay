@@ -23,6 +23,20 @@ func New() *echo.Echo {
 	eUsers.POST("", presenter.UserHandler.RegisterUserHandler)
 	eUsers.GET("", presenter.UserHandler.GetAllUsersHandler)
 
+	eProduct := e.Group("/products")
+	eProduct.POST("", presenter.ProductHandler.CreateProductHandler)
+	eProduct.GET("", presenter.ProductHandler.GetAllProductHandler)
+	eProduct.GET("/:productId", presenter.ProductHandler.GetProductByIdHandler)
+	eProduct.PATCH("/:productId", presenter.ProductHandler.UpdateProductByIdHandler)
+	eProduct.DELETE("/:productId", presenter.ProductHandler.DeleteProductByIdHandler)
+
+	eType := eProduct.Group("/type")
+	eType.POST("", presenter.ProductHandler.CreateTypeProductHandler)
+	eType.GET("", presenter.ProductHandler.GetAllTypeProductHandler)
+	eType.GET("/:productId", presenter.ProductHandler.GetTypeProductByIdHandler)
+	eType.PATCH("/:productId", presenter.ProductHandler.UpdateProductTypeByIdHandler)
+	eType.DELETE("/:productId", presenter.ProductHandler.DeleteTypeProductByIdHandler)
+
 	return n
 
 }
