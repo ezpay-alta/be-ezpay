@@ -2,9 +2,14 @@ package migrate
 
 import (
 	"ezpay/db"
-	"ezpay/features/users/data"
+	productData "ezpay/features/products/data"
+	userData "ezpay/features/users/data"
 )
 
 func AutoMigrate() {
-	db.DB.AutoMigrate(&data.User{})
+	db.DB.AutoMigrate(
+		&userData.User{},
+		&productData.Product{},
+		&productData.Type{},
+	)
 }
