@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: docker-golang
+    image: dwiwidianto/be-ezpay
+    ports:
+      - 8000:8000
+
+
+  # mysql:
+  #   container_name: db_mysql_docker
+  #   image: mysql:latest
+  #   environment:
+  #     MYSQL_DATABASE: '${DB_NAME}'
+  #     MYSQL_USER: '${DB_USERNAME}'
+  #     MYSQL_PASSWORD: '${DB_PASSWORD}'
+  #     MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+  #   ports:
+  #     - 3306:3306
+  #   volumes:
+  #     - ./mysql:/var/lib/mysql
