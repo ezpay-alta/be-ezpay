@@ -1,16 +1,16 @@
-#STAGE 1
-FROM golang:1.17.3-alpine3.15 AS builder
+FROM golang:1.17.3-alpine3.15 as builder
+# Define build env
+ENV GOOS linux
+ENV CGO_ENABLED 0
+
 WORKDIR /app
-COPY ./ ./
+COPY go.mod go.sum ./
 RUN go mod download
-RUN go build -o main
-RUN go clean --modcache
+COPY . .
+RUN go build -o app
 
-
-# STAGE 2
-FROM alpine:3.15
-WORKDIR /app
-COPY --from=builder /app/.env .
-COPY --from=builder /app/main  .
+FROM alpine:3.15 as production
+RUN apk add --no-cache ca-certificates
+COPY --from=builder app .
 EXPOSE 8000
-CMD [ "./main" ]
+CMD ./app
