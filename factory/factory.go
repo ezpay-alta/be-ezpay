@@ -12,11 +12,17 @@ import (
 	productBusiness "ezpay/features/products/business"
 	productData "ezpay/features/products/data"
 	productPresentation "ezpay/features/products/presentation"
+
+	// promo domain
+	promoBusiness "ezpay/features/promos/business"
+	promoData "ezpay/features/promos/data"
+	promoPresentation "ezpay/features/promos/presentation"
 )
 
 type Presenter struct {
 	UserHandler    userPresentation.UserHandler
 	ProductHandler productPresentation.ProductHandler
+	PromoHandler   promoPresentation.PromoHandler
 }
 
 func Init() Presenter {
@@ -31,8 +37,14 @@ func Init() Presenter {
 	productBusiness := productBusiness.NewProductBusiness(productData)
 	productPresentation := productPresentation.NewProductHandler(productBusiness)
 
+	// products layer
+	promoData := promoData.NewMysqlPromoRepository(db.DB)
+	promoBusiness := promoBusiness.NewPromoBusiness(promoData)
+	promoPresentation := promoPresentation.NewPromoHandler(promoBusiness)
+
 	return Presenter{
 		UserHandler:    *userPresentation,
 		ProductHandler: *productPresentation,
+		PromoHandler:   *promoPresentation,
 	}
 }
