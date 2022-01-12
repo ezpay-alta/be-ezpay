@@ -38,5 +38,5 @@ jobs:
         script: |
           docker rm -f $(docker ps -a -q)
           docker pull dwiwidianto/be-ezpay:latest
-          docker run -d dwiwidianto/be-ezpay:latest
+          docker run -d --name ezpay_service -p 80:8000 dwiwidianto/be-ezpay:latest
 
