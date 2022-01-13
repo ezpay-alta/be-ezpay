@@ -1,5 +1,5 @@
 FROM golang:1.17.3-alpine3.15 as builder
-# Define build env
+# Define build env #
 ENV GOOS linux
 ENV CGO_ENABLED 0
 
