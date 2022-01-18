@@ -22,6 +22,9 @@ func New() *echo.Echo {
 	eUsers := e.Group("/users")
 	eUsers.POST("", presenter.UserHandler.RegisterUserHandler)
 	eUsers.GET("", presenter.UserHandler.GetAllUsersHandler)
+	eUsers.GET("/:userId", presenter.UserHandler.GetUserByIdHandler)
+	eUsers.PATCH("/:userId", presenter.UserHandler.UpdateUserHandler)
+	eUsers.DELETE("/:userId", presenter.UserHandler.DeleteUserHandler)
 
 	eProduct := e.Group("/products")
 	eProduct.POST("", presenter.ProductHandler.CreateProductHandler)

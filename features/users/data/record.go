@@ -30,6 +30,8 @@ func ToUserCore(user User) users.Core {
 		ID:       user.ID,
 		Email:    user.Email,
 		Fullname: user.Fullname,
+		Password: user.Password,
+		Phone:    user.Phone,
 	}
 }
 
