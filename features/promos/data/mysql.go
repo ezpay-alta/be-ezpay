@@ -4,6 +4,7 @@ import (
 	"ezpay/features/promos"
 
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type mysqlPromoRepository struct {
@@ -17,7 +18,8 @@ func NewMysqlPromoRepository(conn *gorm.DB) promos.Data {
 }
 
 func (ar *mysqlPromoRepository) CreatePromo(data promos.Core) error {
-	err := ar.Conn.Create(ToPromoRecord(data)).Error
+	recordData := ToPromoRecord(data)
+	err := ar.Conn.Create(&recordData).Error
 	if err != nil {
 		return err
 	}
@@ -28,7 +30,7 @@ func (ar *mysqlPromoRepository) CreatePromo(data promos.Core) error {
 func (ar *mysqlPromoRepository) GetAllPromos() ([]promos.Core, error) {
 
 	promos := []Promo{}
-	err := ar.Conn.Find(&promos).Error
+	err := ar.Conn.Preload("Product.Type").Preload(clause.Associations).Find(&promos).Error
 	if err != nil {
 		return nil, err
 	}
@@ -38,7 +40,7 @@ func (ar *mysqlPromoRepository) GetAllPromos() ([]promos.Core, error) {
 func (ar *mysqlPromoRepository) GetPromoById(promoId int) (promos.Core, error) {
 
 	promo := Promo{}
-	err := ar.Conn.First(&promo, promoId).Error
+	err := ar.Conn.Preload("Product.Type").Preload(clause.Associations).First(&promo, promoId).Error
 	if err != nil {
 		return ToPromoCore(Promo{}), err
 	}

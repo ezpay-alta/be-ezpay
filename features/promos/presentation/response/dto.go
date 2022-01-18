@@ -3,13 +3,15 @@ package response
 import (
 	productResponse "ezpay/features/products/presentation/response"
 	"ezpay/features/promos"
+	"time"
 )
 
 type PromoResponse struct {
-	ID      int    `json:"id"`
-	Label   string `json:"label"`
-	Product productResponse.ProductResponse
-	Amount  int `json:"amount"`
+	ID      int                             `json:"id"`
+	Label   string                          `json:"label"`
+	Product productResponse.ProductResponse `json:"product"`
+	Amount  int                             `json:"amount"`
+	Expires time.Time                       `json:"expires"`
 }
 
 func ToPromoResponse(promo promos.Core) PromoResponse {
@@ -18,6 +20,7 @@ func ToPromoResponse(promo promos.Core) PromoResponse {
 		Label:   promo.Label,
 		Product: productResponse.ToProductResponse(promo.Product),
 		Amount:  promo.Amount,
+		Expires: promo.Expires,
 	}
 }
 

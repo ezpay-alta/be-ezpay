@@ -40,12 +40,12 @@ func New() *echo.Echo {
 	eType.PATCH("/:typeId", presenter.ProductHandler.UpdateProductTypeByIdHandler)
 	eType.DELETE("/:typeId", presenter.ProductHandler.DeleteProductTypeByIdHandler)
 
-	ePromo := eProduct.Group("/promo")
+	ePromo := e.Group("/promos")
 	ePromo.POST("", presenter.PromoHandler.CreatePromoHandler)
 	ePromo.GET("", presenter.PromoHandler.GetAllPromoHandler)
-	ePromo.GET("/:productId", presenter.PromoHandler.GetPromoByIdHandler)
-	ePromo.PATCH("/:productId", presenter.PromoHandler.UpdatePromoByIdHandler)
-	ePromo.DELETE("/:productId", presenter.PromoHandler.DeletePromoByIdHandler)
+	ePromo.GET("/:promoId", presenter.PromoHandler.GetPromoByIdHandler)
+	ePromo.PATCH("/:promoId", presenter.PromoHandler.UpdatePromoByIdHandler)
+	ePromo.DELETE("/:promoId", presenter.PromoHandler.DeletePromoByIdHandler)
 
 	eTransaction := eProduct.Group("/transaction")
 	eTransaction.POST("", presenter.TransactionHandler.CreateTransactionHandler)

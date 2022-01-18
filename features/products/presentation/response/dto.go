@@ -5,11 +5,11 @@ import (
 )
 
 type ProductResponse struct {
-	ID      int    `json:"id"`
-	Name    string `json:"name"`
-	Type    TypeResponse
-	Nominal int `json:"nominal"`
-	Price   int `json:"price"`
+	ID      int          `json:"id"`
+	Name    string       `json:"name"`
+	Type    TypeResponse `json:"type"`
+	Nominal int          `json:"nominal"`
+	Price   int          `json:"price"`
 }
 
 type TypeResponse struct {
