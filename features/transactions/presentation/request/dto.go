@@ -10,7 +10,7 @@ type TransactionRequest struct {
 	ProductID       int    `json:"product_id"`
 	PromoID         int    `json:"promo_id"`
 	Total           int    `json:"total"`
-	Status          string `json:"total"`
+	Status          string `json:"status"`
 	PaymentMethodID int    `json:"paymentMethod_id"`
 }
 

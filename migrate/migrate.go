@@ -15,7 +15,7 @@ func AutoMigrate() {
 		&productData.Type{},
 		&promoData.Promo{},
 		&transactionData.Transaction{},
-		&transactionData.PaymentMethod{},
-		&transactionData.StepPayment{},
+		// &transactionData.PaymentMethod{},
+		// &transactionData.StepPayment{},
 	)
 }
