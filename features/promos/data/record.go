@@ -3,6 +3,7 @@ package data
 import (
 	productData "ezpay/features/products/data"
 	"ezpay/features/promos"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -14,6 +15,7 @@ type Promo struct {
 	Product   productData.Product
 	Label     string
 	Amount    int
+	Expires   time.Time
 }
 
 func ToPromoRecord(promo promos.Core) Promo {
@@ -23,6 +25,7 @@ func ToPromoRecord(promo promos.Core) Promo {
 		Product:   productData.ToProductRecord(promo.Product),
 		Label:     promo.Label,
 		Amount:    promo.Amount,
+		Expires:   promo.Expires,
 	}
 }
 
@@ -33,6 +36,7 @@ func ToPromoCore(promo Promo) promos.Core {
 		Product:   productData.ToProductCore(promo.Product),
 		Label:     promo.Label,
 		Amount:    promo.Amount,
+		Expires:   promo.Expires,
 	}
 }
 

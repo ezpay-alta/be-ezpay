@@ -1,6 +1,9 @@
 package promos
 
-import "ezpay/features/products"
+import (
+	"ezpay/features/products"
+	"time"
+)
 
 type Core struct {
 	ID        int
@@ -8,6 +11,7 @@ type Core struct {
 	Product   products.Core
 	Label     string
 	Amount    int
+	Expires   time.Time
 }
 
 type Business interface {
