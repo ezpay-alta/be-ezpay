@@ -23,11 +23,11 @@ type Type struct {
 	Description string
 }
 
-func ToTypeRecord(typeProduct products.TypeCore) Type {
+func ToTypeRecord(productType products.TypeCore) Type {
 	return Type{
-		ID:          typeProduct.ID,
-		Name:        typeProduct.Name,
-		Description: typeProduct.Description,
+		ID:          productType.ID,
+		Name:        productType.Name,
+		Description: productType.Description,
 	}
 }
 
@@ -53,11 +53,11 @@ func ToProductCore(product Product) products.Core {
 	}
 }
 
-func ToTypeCore(typeProduct Type) products.TypeCore {
+func ToTypeCore(productType Type) products.TypeCore {
 	return products.TypeCore{
-		ID:          typeProduct.ID,
-		Name:        typeProduct.Name,
-		Description: typeProduct.Description,
+		ID:          productType.ID,
+		Name:        productType.Name,
+		Description: productType.Description,
 	}
 }
 
@@ -74,8 +74,8 @@ func ToProductCoreList(aList []Product) []products.Core {
 func ToTypeProductCoreList(aList []Type) []products.TypeCore {
 	convertedTypeProduct := []products.TypeCore{}
 
-	for _, typeProduct := range aList {
-		convertedTypeProduct = append(convertedTypeProduct, ToTypeCore(typeProduct))
+	for _, productType := range aList {
+		convertedTypeProduct = append(convertedTypeProduct, ToTypeCore(productType))
 	}
 
 	return convertedTypeProduct

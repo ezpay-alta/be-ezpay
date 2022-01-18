@@ -16,7 +16,7 @@ type TypeCore struct {
 }
 
 type Business interface {
-	CreateType(typeProduct TypeCore) error
+	CreateType(productType TypeCore) error
 	GetAllTypes() ([]TypeCore, error)
 	GetTypeById(typeId int) (TypeCore, error)
 	UpdateTypeById(typeId int, data TypeCore) error
@@ -30,7 +30,7 @@ type Business interface {
 }
 
 type Data interface {
-	CreateType(typeProduct TypeCore) error
+	CreateType(productType TypeCore) error
 	GetAllTypes() ([]TypeCore, error)
 	GetTypeById(typeId int) (TypeCore, error)
 	UpdateTypeById(typeId int, data TypeCore) error

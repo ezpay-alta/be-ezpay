@@ -12,8 +12,8 @@ func NewProductBusiness(productData products.Data) products.Business {
 	return &productUsecase{ProductData: productData}
 }
 
-func (pu *productUsecase) CreateType(typeProduct products.TypeCore) error {
-	err := pu.ProductData.CreateType(typeProduct)
+func (pu *productUsecase) CreateType(productType products.TypeCore) error {
+	err := pu.ProductData.CreateType(productType)
 	if err != nil {
 		return err
 	}
