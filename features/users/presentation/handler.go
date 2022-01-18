@@ -65,13 +65,7 @@ func (uh *UserHandler) GetAllUsersHandler(e echo.Context) error {
 }
 
 func (uh *UserHandler) GetUserByIdHandler(e echo.Context) error {
-	userId, err := strconv.Atoi(e.Param("userId"))
-	if err != nil {
-		return e.JSON(http.StatusBadRequest, map[string]interface{}{
-			"status":  "fail",
-			"message": err.Error(),
-		})
-	}
+	userId, _ := strconv.Atoi(e.Param("userId"))
 
 	data, err := uh.UserBusiness.GetUserById(userId)
 	if err != nil {
@@ -89,9 +83,12 @@ func (uh *UserHandler) GetUserByIdHandler(e echo.Context) error {
 }
 
 func (uh *UserHandler) UpdateUserHandler(e echo.Context) error {
+	userId, _ := strconv.Atoi(e.Param("userId"))
 	userData := request.UserRequest{}
 
-	err := e.Bind(&userData)
+	e.Bind(&userData)
+
+	err := uh.UserBusiness.UpdateUserById(userId, userData.ToUserCore())
 	if err != nil {
 		return e.JSON(http.StatusBadRequest, map[string]interface{}{
 			"status":  "fail",
@@ -106,9 +103,9 @@ func (uh *UserHandler) UpdateUserHandler(e echo.Context) error {
 }
 
 func (uh *UserHandler) DeleteUserHandler(e echo.Context) error {
-	userData := request.UserRequest{}
 
-	err := e.Bind(&userData)
+	userId, _ := strconv.Atoi(e.Param("userId"))
+	err := uh.UserBusiness.DeleteUserById(userId)
 	if err != nil {
 		return e.JSON(http.StatusBadRequest, map[string]interface{}{
 			"status":  "fail",

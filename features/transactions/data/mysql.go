@@ -25,7 +25,7 @@ func (ar *mysqlTransactionRepository) CreateTransaction(transaction transactions
 	return nil
 }
 
-func (ar *mysqlTransactionRepository) GetAllTransaction() ([]transactions.Core, error) {
+func (ar *mysqlTransactionRepository) GetAllTransactions() ([]transactions.Core, error) {
 
 	transactions := []Transaction{}
 	err := ar.Conn.Find(&transactions).Error
