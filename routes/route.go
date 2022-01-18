@@ -44,7 +44,7 @@ func New() *echo.Echo {
 	ePromo.PATCH("/:productId", presenter.PromoHandler.UpdatePromoByIdHandler)
 	ePromo.DELETE("/:productId", presenter.PromoHandler.DeletePromoByIdHandler)
 
-	eTransaction := eProduct.Group("/transaction")
+	eTransaction := e.Group("/transactions")
 	eTransaction.POST("", presenter.TransactionHandler.CreateTransactionHandler)
 	eTransaction.GET("", presenter.TransactionHandler.GetAllTransactionsHandler)
 	eTransaction.GET("/:transactionId", presenter.TransactionHandler.GetTransactionByIdHandler)

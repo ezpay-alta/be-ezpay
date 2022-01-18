@@ -8,7 +8,7 @@ type UserResponse struct {
 	ID       int    `json:"id"`
 	Email    string `json:"email"`
 	Fullname string `json:"fullname"`
-	Image    string `json:"image"`
+	Phone    string `json:"phone"`
 }
 
 func ToUserResponse(user users.Core) UserResponse {
@@ -16,6 +16,7 @@ func ToUserResponse(user users.Core) UserResponse {
 		ID:       user.ID,
 		Email:    user.Email,
 		Fullname: user.Fullname,
+		Phone:    user.Phone,
 	}
 }
 

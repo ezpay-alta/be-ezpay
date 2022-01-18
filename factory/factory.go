@@ -50,7 +50,7 @@ func Init() Presenter {
 
 	// transaction layer
 	transactionData := transactionData.NewMysqlTransactionRepository(db.DB)
-	transactionBusiness := transactionBusiness.NewTransactionBusiness(transactionData)
+	transactionBusiness := transactionBusiness.NewTransactionBusiness(transactionData, productData, promoData)
 	transactionPresentation := transactionPresentation.NewTransactionHandler(transactionBusiness)
 
 	return Presenter{

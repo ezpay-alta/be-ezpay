@@ -4,6 +4,7 @@ import (
 	"ezpay/features/transactions"
 
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type mysqlTransactionRepository struct {
@@ -17,7 +18,9 @@ func NewMysqlTransactionRepository(conn *gorm.DB) transactions.Data {
 }
 
 func (ar *mysqlTransactionRepository) CreateTransaction(transaction transactions.Core) error {
-	err := ar.Conn.Create(ToTransactionRecord(transaction)).Error
+	transaction.Status = "PENDING"
+	recordData := ToTransactionRecord(transaction)
+	err := ar.Conn.Create(&recordData).Error
 	if err != nil {
 		return err
 	}
@@ -28,7 +31,7 @@ func (ar *mysqlTransactionRepository) CreateTransaction(transaction transactions
 func (ar *mysqlTransactionRepository) GetAllTransactions() ([]transactions.Core, error) {
 
 	transactions := []Transaction{}
-	err := ar.Conn.Find(&transactions).Error
+	err := ar.Conn.Preload("Promo.Product").Preload("Promo.Product.Type").Preload("Product.Type").Preload(clause.Associations).Find(&transactions).Error
 	if err != nil {
 		return nil, err
 	}
@@ -38,7 +41,7 @@ func (ar *mysqlTransactionRepository) GetAllTransactions() ([]transactions.Core,
 func (ar *mysqlTransactionRepository) GetTransactionById(transactionId int) (transactions.Core, error) {
 
 	transaction := Transaction{}
-	err := ar.Conn.First(&transaction, transactionId).Error
+	err := ar.Conn.Preload("Promo.Product").Preload("Promo.Product.Type").Preload("Product.Type").Preload(clause.Associations).First(&transaction, transactionId).Error
 	if err != nil {
 		return ToTransactionCore(Transaction{}), err
 	}

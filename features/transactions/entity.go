@@ -17,22 +17,22 @@ type Core struct {
 	Total           int
 	Status          string
 	PaymentMethodID int
-	PaymentMethod   PaymentMethodCore
+	// PaymentMethod   PaymentMethodCore
 }
 
-type PaymentMethodCore struct {
-	ID          int
-	Code        string
-	Type        string
-	Name        string
-	StepPayment StepPaymentCore
-}
+// type PaymentMethodCore struct {
+// 	ID   int
+// 	Code string
+// 	Type string
+// 	Name string
+// 	// StepPayment StepPaymentCore
+// }
 
-type StepPaymentCore struct {
-	ID     int
-	Label  string
-	Detail string
-}
+// type StepPaymentCore struct {
+// 	ID     int
+// 	Label  string
+// 	Detail string
+// }
 
 type Business interface {
 	CreateTransaction(data Core) error

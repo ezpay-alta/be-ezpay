@@ -6,10 +6,10 @@ import (
 )
 
 type PromoResponse struct {
-	ID      int    `json:"id"`
-	Label   string `json:"label"`
-	Product productResponse.ProductResponse
-	Amount  int `json:"amount"`
+	ID      int                             `json:"id"`
+	Label   string                          `json:"label"`
+	Product productResponse.ProductResponse `json:"product"`
+	Amount  int                             `json:"amount"`
 }
 
 func ToPromoResponse(promo promos.Core) PromoResponse {
