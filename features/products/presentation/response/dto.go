@@ -28,11 +28,11 @@ func ToProductResponse(product products.Core) ProductResponse {
 	}
 }
 
-func ToTypeResponse(typeProduct products.TypeCore) TypeResponse {
+func ToTypeResponse(productType products.TypeCore) TypeResponse {
 	return TypeResponse{
-		ID:          typeProduct.ID,
-		Name:        typeProduct.Name,
-		Description: typeProduct.Description,
+		ID:          productType.ID,
+		Name:        productType.Name,
+		Description: productType.Description,
 	}
 }
 
@@ -47,8 +47,8 @@ func ToProductResponseList(productList []products.Core) []ProductResponse {
 
 func ToTypeResponseList(typeList []products.TypeCore) []TypeResponse {
 	convertedType := []TypeResponse{}
-	for _, typeProduct := range typeList {
-		convertedType = append(convertedType, ToTypeResponse(typeProduct))
+	for _, productType := range typeList {
+		convertedType = append(convertedType, ToTypeResponse(productType))
 	}
 
 	return convertedType

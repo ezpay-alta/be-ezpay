@@ -34,11 +34,11 @@ func New() *echo.Echo {
 	eProduct.DELETE("/:productId", presenter.ProductHandler.DeleteProductByIdHandler)
 
 	eType := eProduct.Group("/type")
-	eType.POST("", presenter.ProductHandler.CreateTypeProductHandler)
+	eType.POST("", presenter.ProductHandler.CreateProductTypeHandler)
 	eType.GET("", presenter.ProductHandler.GetAllTypeProductHandler)
-	eType.GET("/:productId", presenter.ProductHandler.GetTypeProductByIdHandler)
-	eType.PATCH("/:productId", presenter.ProductHandler.UpdateProductTypeByIdHandler)
-	eType.DELETE("/:productId", presenter.ProductHandler.DeleteTypeProductByIdHandler)
+	eType.GET("/:typeId", presenter.ProductHandler.GetProductTypeByIdHandler)
+	eType.PATCH("/:typeId", presenter.ProductHandler.UpdateProductTypeByIdHandler)
+	eType.DELETE("/:typeId", presenter.ProductHandler.DeleteProductTypeByIdHandler)
 
 	ePromo := eProduct.Group("/promo")
 	ePromo.POST("", presenter.PromoHandler.CreatePromoHandler)

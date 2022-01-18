@@ -137,7 +137,7 @@ func (uh *ProductHandler) DeleteProductByIdHandler(e echo.Context) error {
 
 }
 
-func (ph *ProductHandler) CreateTypeProductHandler(e echo.Context) error {
+func (ph *ProductHandler) CreateProductTypeHandler(e echo.Context) error {
 	typeData := request.TypeRequest{}
 
 	e.Bind(&typeData)
@@ -146,14 +146,14 @@ func (ph *ProductHandler) CreateTypeProductHandler(e echo.Context) error {
 	if err != nil {
 		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"status":  "fail",
-			"message": "can not create type product",
+			"message": "can not create product type",
 			"err":     err.Error(),
 		})
 	}
 
 	return e.JSON(http.StatusOK, map[string]interface{}{
 		"status":  "success",
-		"message": "new type product is created",
+		"message": "new product type is created",
 	})
 }
 
@@ -174,7 +174,7 @@ func (ph *ProductHandler) GetAllTypeProductHandler(e echo.Context) error {
 
 }
 
-func (ph *ProductHandler) GetTypeProductByIdHandler(e echo.Context) error {
+func (ph *ProductHandler) GetProductTypeByIdHandler(e echo.Context) error {
 	typeId, err := strconv.Atoi(e.Param("typeId"))
 	if err != nil {
 		return e.JSON(http.StatusBadRequest, map[string]interface{}{
@@ -229,7 +229,7 @@ func (ah *ProductHandler) UpdateProductTypeByIdHandler(e echo.Context) error {
 
 }
 
-func (uh *ProductHandler) DeleteTypeProductByIdHandler(e echo.Context) error {
+func (uh *ProductHandler) DeleteProductTypeByIdHandler(e echo.Context) error {
 	typeId, err := strconv.Atoi(e.Param("typeId"))
 	if err != nil {
 		return e.JSON(http.StatusInternalServerError, map[string]interface{}{

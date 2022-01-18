@@ -16,8 +16,9 @@ func NewMysqlProductRepository(conn *gorm.DB) products.Data {
 	}
 }
 
-func (ar *mysqlProductRepository) CreateType(typeProduct products.TypeCore) error {
-	err := ar.Conn.Create(ToTypeRecord(typeProduct)).Error
+func (ar *mysqlProductRepository) CreateType(productType products.TypeCore) error {
+	recordData := ToTypeRecord(productType)
+	err := ar.Conn.Create(&recordData).Error
 	if err != nil {
 		return err
 	}
@@ -37,32 +38,32 @@ func (ar *mysqlProductRepository) GetAllTypes() ([]products.TypeCore, error) {
 
 func (ar *mysqlProductRepository) GetTypeById(typeId int) (products.TypeCore, error) {
 
-	typeProduct := Type{}
-	err := ar.Conn.First(&typeProduct, typeId).Error
+	productType := Type{}
+	err := ar.Conn.First(&productType, typeId).Error
 	if err != nil {
 		return ToTypeCore(Type{}), err
 	}
-	return ToTypeCore(typeProduct), nil
+	return ToTypeCore(productType), nil
 }
 
 func (ar *mysqlProductRepository) UpdateTypeById(typeId int, data products.TypeCore) error {
 
-	typeProduct := ToTypeRecord(data)
-	typeProduct.ID = typeId
+	productType := ToTypeRecord(data)
+	productType.ID = typeId
 
-	err := ar.Conn.First(&typeProduct, typeId).Error
+	err := ar.Conn.First(&productType, typeId).Error
 	if err != nil {
 		return err
 	}
 
 	if data.Name != "" {
-		typeProduct.Name = data.Name
+		productType.Name = data.Name
 	}
 	if data.Description != "" {
-		typeProduct.Description = data.Description
+		productType.Description = data.Description
 	}
 
-	err = ar.Conn.Save(&typeProduct).Error
+	err = ar.Conn.Save(&productType).Error
 	if err != nil {
 		return err
 	}
