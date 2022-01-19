@@ -54,6 +54,11 @@ func New() *echo.Echo {
 	eTransaction.PATCH("/:transactionId", presenter.TransactionHandler.UpdateTransactionByIdHandler)
 	eTransaction.DELETE("/:transactionId", presenter.TransactionHandler.DeleteTransactionByIdHandler)
 
+	eAuth := e.Group("/auth")
+	eAuth.POST("", presenter.AuthHandler.LoginHandler)
+	eAuth.PUT("", presenter.AuthHandler.ReLoginHandler)
+	eAuth.DELETE("", presenter.AuthHandler.LogoutHandler)
+
 	return n
 
 }

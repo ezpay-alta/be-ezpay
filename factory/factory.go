@@ -1,9 +1,9 @@
 package factory
 
 import (
+	"ezpay/db"
 
 	// user domain
-	"ezpay/db"
 	userBusiness "ezpay/features/users/business"
 	userData "ezpay/features/users/data"
 	userPresentation "ezpay/features/users/presentation"
@@ -22,6 +22,11 @@ import (
 	transactionBusiness "ezpay/features/transactions/business"
 	transactionData "ezpay/features/transactions/data"
 	transactionPresentation "ezpay/features/transactions/presentation"
+
+	// auth domain
+	authBusiness "ezpay/features/auth/business"
+	authData "ezpay/features/auth/data"
+	authPresentation "ezpay/features/auth/presentation"
 )
 
 type Presenter struct {
@@ -29,6 +34,7 @@ type Presenter struct {
 	ProductHandler     productPresentation.ProductHandler
 	PromoHandler       promoPresentation.PromoHandler
 	TransactionHandler transactionPresentation.TransactionHandler
+	AuthHandler        authPresentation.AuthHandler
 }
 
 func Init() Presenter {
@@ -53,10 +59,16 @@ func Init() Presenter {
 	transactionBusiness := transactionBusiness.NewTransactionBusiness(transactionData, productData, promoData)
 	transactionPresentation := transactionPresentation.NewTransactionHandler(transactionBusiness)
 
+	// auth layer
+	authData := authData.NewMysqlAuthRepository(db.DB)
+	authBusiness := authBusiness.NewAuthBusiness(authData)
+	authPresentation := authPresentation.NewAuthHandler(authBusiness)
+
 	return Presenter{
 		UserHandler:        *userPresentation,
 		ProductHandler:     *productPresentation,
 		PromoHandler:       *promoPresentation,
 		TransactionHandler: *transactionPresentation,
+		AuthHandler:        *authPresentation,
 	}
 }

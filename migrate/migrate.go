@@ -2,6 +2,7 @@ package migrate
 
 import (
 	"ezpay/db"
+	authData "ezpay/features/auth/data"
 	productData "ezpay/features/products/data"
 	promoData "ezpay/features/promos/data"
 	transactionData "ezpay/features/transactions/data"
@@ -15,6 +16,7 @@ func AutoMigrate() {
 		&productData.Type{},
 		&promoData.Promo{},
 		&transactionData.Transaction{},
+		&authData.Authentication{},
 		// &transactionData.PaymentMethod{},
 		// &transactionData.StepPayment{},
 	)
