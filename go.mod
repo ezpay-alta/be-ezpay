@@ -9,6 +9,8 @@ require (
 	gorm.io/gorm v1.22.4
 )
 
+require github.com/xendit/xendit-go v1.0.5 // indirect
+
 require (
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible

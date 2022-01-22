@@ -18,6 +18,10 @@ func NewMysqlUserRepository(conn *gorm.DB) users.Data {
 
 func (ur *mysqlUserRepository) CreateUser(data users.Core) (userId int, err error) {
 
+	if data.Role == "" {
+		data.Role = "customer"
+	}
+
 	recordData := ToUserRecord(data)
 	err = ur.Conn.Create(&recordData).Error
 	if err != nil {
@@ -30,7 +34,7 @@ func (ur *mysqlUserRepository) GetAllUsers() ([]users.Core, error) {
 
 	var users []User
 
-	err := ur.Conn.Find(&users).Error
+	err := ur.Conn.Where("role = ?", "customer").Find(&users).Error
 	if err != nil {
 		return nil, err
 	}

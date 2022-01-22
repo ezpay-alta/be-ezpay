@@ -1,6 +1,7 @@
 package presentation
 
 import (
+	"ezpay/features/middlewares"
 	"ezpay/features/transactions"
 	"ezpay/features/transactions/presentation/request"
 	"ezpay/features/transactions/presentation/response"
@@ -20,11 +21,20 @@ func NewTransactionHandler(transactionBusiness transactions.Business) *Transacti
 }
 
 func (ph *TransactionHandler) CreateTransactionHandler(e echo.Context) error {
+	userId, _, err := middlewares.VerifyAccessToken(e)
+	if err != nil {
+		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"status":  "fail",
+			"message": "can not create transaction",
+			"err":     "token is invalid",
+		})
+	}
+
 	transactionData := request.TransactionRequest{}
 
 	e.Bind(&transactionData)
 
-	err := ph.TransactionBusiness.CreateTransaction(transactionData.ToTransactionCore())
+	err = ph.TransactionBusiness.CreateTransaction(transactionData.ToTransactionCore(userId))
 	if err != nil {
 		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"status":  "fail",
@@ -83,6 +93,15 @@ func (ph *TransactionHandler) GetTransactionByIdHandler(e echo.Context) error {
 }
 
 func (ah *TransactionHandler) UpdateTransactionByIdHandler(e echo.Context) error {
+	userId, _, err := middlewares.VerifyAccessToken(e)
+	if err != nil {
+		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"status":  "fail",
+			"message": "can not create transaction",
+			"err":     "token is invalid",
+		})
+	}
+
 	transactionId, err := strconv.Atoi(e.Param("transactionId"))
 	if err != nil {
 		return e.JSON(http.StatusBadRequest, map[string]interface{}{
@@ -95,7 +114,7 @@ func (ah *TransactionHandler) UpdateTransactionByIdHandler(e echo.Context) error
 	transactionData := request.TransactionRequest{}
 	e.Bind(&transactionData)
 
-	err = ah.TransactionBusiness.UpdateTransactionById(transactionId, transactionData.ToTransactionCore())
+	err = ah.TransactionBusiness.UpdateTransactionById(transactionId, transactionData.ToTransactionCore(userId))
 	if err != nil {
 		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"status":  "fail",

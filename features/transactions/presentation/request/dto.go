@@ -14,10 +14,10 @@ type TransactionRequest struct {
 	PaymentMethodID int    `json:"paymentMethod_id"`
 }
 
-func (requestData *TransactionRequest) ToTransactionCore() transactions.Core {
+func (requestData *TransactionRequest) ToTransactionCore(userId int) transactions.Core {
 	return transactions.Core{
 		ID:              requestData.ID,
-		UserID:          requestData.UserID,
+		UserID:          userId,
 		ProductID:       requestData.ProductID,
 		PromoID:         requestData.PromoID,
 		Total:           requestData.Total,

@@ -13,13 +13,15 @@ var ACCESS_TOKEN_KEY string = os.Getenv("ACCESS_TOKEN_KEY")
 var REFRESH_TOKEN_KEY string = os.Getenv("REFRESH_TOKEN_KEY")
 
 type JwtCustomClaims struct {
-	UserId int `json:"userId"`
+	UserId int    `json:"userId"`
+	Role   string `json:"role"`
 	jwt.StandardClaims
 }
 
-func CreateToken(userId int) (string, error) {
+func CreateToken(userId int, role string) (string, error) {
 	claims := &JwtCustomClaims{
 		userId,
+		role,
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour).Unix(),
 		},
@@ -29,9 +31,10 @@ func CreateToken(userId int) (string, error) {
 	return token.SignedString([]byte(ACCESS_TOKEN_KEY))
 }
 
-func CreateRefreshToken(userId int) (string, error) {
+func CreateRefreshToken(userId int, role string) (string, error) {
 	claims := &JwtCustomClaims{
 		userId,
+		role,
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour).Unix(),
 		},
@@ -41,35 +44,40 @@ func CreateRefreshToken(userId int) (string, error) {
 	return token.SignedString([]byte(REFRESH_TOKEN_KEY))
 }
 
-func VerifyRefreshToken(refreshToken string) (userId int, err error) {
+func VerifyRefreshToken(refreshToken string) (userId int, role string, err error) {
 	keyFunc := func(t *jwt.Token) (interface{}, error) {
 		return []byte(REFRESH_TOKEN_KEY), nil
 	}
 	jwtToken, err := jwt.ParseWithClaims(refreshToken, &JwtCustomClaims{}, keyFunc)
 	if err != nil {
-		return 0, err
+		return 0, "", err
 	}
 
 	claims := jwtToken.Claims.(*JwtCustomClaims)
 	userId = claims.UserId
+	role = claims.Role
 
-	return userId, nil
+	return userId, role, nil
 
 }
 
-func VerifyAccessToken(c echo.Context) (userId int, err error) {
+func VerifyAccessToken(c echo.Context) (userId int, role string, err error) {
+	if c.Request().Header.Get("Authorization") == "" {
+		return 0, "", err
+	}
 	keyFunc := func(t *jwt.Token) (interface{}, error) {
 		return []byte(ACCESS_TOKEN_KEY), nil
 	}
 	accessToken := strings.Split(c.Request().Header.Get("Authorization"), " ")[1]
 	jwtToken, err := jwt.ParseWithClaims(accessToken, &JwtCustomClaims{}, keyFunc)
 	if err != nil {
-		return 0, err
+		return 0, "", err
 	}
 
 	claims := jwtToken.Claims.(*JwtCustomClaims)
 	userId = claims.UserId
+	role = claims.Role
 
-	return userId, nil
+	return userId, role, nil
 
 }

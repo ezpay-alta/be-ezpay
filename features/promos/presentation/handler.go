@@ -1,6 +1,7 @@
 package presentation
 
 import (
+	"ezpay/features/middlewares"
 	"ezpay/features/promos"
 	"ezpay/features/promos/presentation/request"
 	"ezpay/features/promos/presentation/response"
@@ -20,11 +21,27 @@ func NewPromoHandler(promoBusiness promos.Business) *PromoHandler {
 }
 
 func (ph *PromoHandler) CreatePromoHandler(e echo.Context) error {
+	_, role, err := middlewares.VerifyAccessToken(e)
+	if err != nil {
+		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"status":  "fail",
+			"message": "can not create promo",
+			"err":     "token is invalid",
+		})
+	}
+	if role != "admin" {
+		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"status":  "fail",
+			"message": "can not create promo",
+			"err":     "you are not an admin",
+		})
+	}
+
 	promoData := request.PromoRequest{}
 
 	e.Bind(&promoData)
 
-	err := ph.PromoBusiness.CreatePromo(promoData.ToPromoCore())
+	err = ph.PromoBusiness.CreatePromo(promoData.ToPromoCore())
 	if err != nil {
 		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"status":  "fail",
@@ -83,6 +100,22 @@ func (ph *PromoHandler) GetPromoByIdHandler(e echo.Context) error {
 }
 
 func (ah *PromoHandler) UpdatePromoByIdHandler(e echo.Context) error {
+	_, role, err := middlewares.VerifyAccessToken(e)
+	if err != nil {
+		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"status":  "fail",
+			"message": "can not create promo",
+			"err":     "token is invalid",
+		})
+	}
+	if role != "admin" {
+		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"status":  "fail",
+			"message": "can not create promo",
+			"err":     "you are not an admin",
+		})
+	}
+
 	promoId, err := strconv.Atoi(e.Param("promoId"))
 	if err != nil {
 		return e.JSON(http.StatusBadRequest, map[string]interface{}{
@@ -112,6 +145,22 @@ func (ah *PromoHandler) UpdatePromoByIdHandler(e echo.Context) error {
 }
 
 func (uh *PromoHandler) DeletePromoByIdHandler(e echo.Context) error {
+	_, role, err := middlewares.VerifyAccessToken(e)
+	if err != nil {
+		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"status":  "fail",
+			"message": "can not create promo",
+			"err":     "token is invalid",
+		})
+	}
+	if role != "admin" {
+		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"status":  "fail",
+			"message": "can not create promo",
+			"err":     "you are not an admin",
+		})
+	}
+
 	promoId, err := strconv.Atoi(e.Param("promoId"))
 	if err != nil {
 		return e.JSON(http.StatusInternalServerError, map[string]interface{}{

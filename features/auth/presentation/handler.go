@@ -23,7 +23,7 @@ func (ah *AuthHandler) LoginHandler(e echo.Context) error {
 	user := request.UserRequest{}
 	e.Bind(&user)
 
-	userId, err := ah.AuthBusiness.VerifyUserCredential(user.ToUserCore())
+	userId, role, err := ah.AuthBusiness.VerifyUserCredential(user.ToUserCore())
 	if err != nil {
 		return e.JSON(http.StatusBadRequest, map[string]interface{}{
 			"status":  "fail",
@@ -32,7 +32,7 @@ func (ah *AuthHandler) LoginHandler(e echo.Context) error {
 		})
 	}
 
-	accessToken, err := middlewares.CreateToken(userId)
+	accessToken, err := middlewares.CreateToken(userId, role)
 	if err != nil {
 		return e.JSON(http.StatusBadRequest, map[string]interface{}{
 			"status":  "fail",
@@ -41,7 +41,7 @@ func (ah *AuthHandler) LoginHandler(e echo.Context) error {
 		})
 	}
 
-	refreshToken, err := middlewares.CreateRefreshToken(userId)
+	refreshToken, err := middlewares.CreateRefreshToken(userId, role)
 	if err != nil {
 		return e.JSON(http.StatusBadRequest, map[string]interface{}{
 			"status":  "fail",
@@ -81,7 +81,7 @@ func (ah *AuthHandler) ReLoginHandler(e echo.Context) error {
 		})
 	}
 
-	userId, err := middlewares.VerifyRefreshToken(auth.RefreshToken)
+	userId, role, err := middlewares.VerifyRefreshToken(auth.RefreshToken)
 	if err != nil {
 		return e.JSON(http.StatusBadRequest, map[string]interface{}{
 			"status":  "fail",
@@ -90,7 +90,7 @@ func (ah *AuthHandler) ReLoginHandler(e echo.Context) error {
 		})
 	}
 
-	accessToken, err := middlewares.CreateToken(userId)
+	accessToken, err := middlewares.CreateToken(userId, role)
 	if err != nil {
 		return e.JSON(http.StatusBadRequest, map[string]interface{}{
 			"status":  "fail",

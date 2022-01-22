@@ -39,12 +39,12 @@ func (au *authUsecase) DeleteRefreshToken(data auth.Core) error {
 
 }
 
-func (au *authUsecase) VerifyUserCredential(data users.Core) (userId int, err error) {
+func (au *authUsecase) VerifyUserCredential(data users.Core) (userId int, role string, err error) {
 
-	userId, err = au.AuthData.VerifyUserCredential(data)
+	userId, role, err = au.AuthData.VerifyUserCredential(data)
 	if err != nil {
-		return 0, err
+		return 0, "", err
 	}
-	return userId, nil
+	return userId, role, nil
 
 }

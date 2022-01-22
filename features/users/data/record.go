@@ -12,6 +12,7 @@ type User struct {
 	Fullname string
 	Phone    string `gorm:"unique"`
 	Email    string `gorm:"unique"`
+	Role     string
 	Password string
 }
 
@@ -22,6 +23,7 @@ func ToUserRecord(user users.Core) User {
 		Password: user.Password,
 		Fullname: user.Fullname,
 		Phone:    user.Phone,
+		Role:     user.Role,
 	}
 }
 
@@ -32,6 +34,7 @@ func ToUserCore(user User) users.Core {
 		Fullname: user.Fullname,
 		Password: user.Password,
 		Phone:    user.Phone,
+		Role:     user.Role,
 	}
 }
 

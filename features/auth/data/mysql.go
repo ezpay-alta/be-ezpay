@@ -49,7 +49,7 @@ func (ur *mysqlAuthRepository) DeleteRefreshToken(data auth.Core) error {
 	return nil
 }
 
-func (ur *mysqlAuthRepository) VerifyUserCredential(data users.Core) (usersId int, err error) {
+func (ur *mysqlAuthRepository) VerifyUserCredential(data users.Core) (usersId int, role string, err error) {
 
 	recordData := toUserRecord(data)
 	if data.Email != "" {
@@ -58,11 +58,11 @@ func (ur *mysqlAuthRepository) VerifyUserCredential(data users.Core) (usersId in
 		ur.Conn.Where("phone = ?", data.Phone).First(&recordData)
 	}
 	if recordData.Password == "" && recordData.ID == 0 {
-		return 0, errors.New("email or phone is not registered yet")
+		return 0, "", errors.New("email or phone is not registered yet")
 	}
 	if bcrypt.CompareHashAndPassword([]byte(recordData.Password), []byte(data.Password)) != nil {
-		return 0, errors.New("password is not correct")
+		return 0, "", errors.New("password is not correct")
 	}
 
-	return recordData.ID, nil
+	return recordData.ID, recordData.Role, nil
 }

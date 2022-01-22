@@ -5,6 +5,7 @@ type Core struct {
 	Fullname string
 	Phone    string
 	Email    string
+	Role     string
 	Password string
 }
 

@@ -8,6 +8,7 @@ type UserRequest struct {
 	Password string `json:"password"`
 	Fullname string `json:"fullname"`
 	Phone    string `json:"phone"`
+	Role     string `json:"role"`
 }
 
 func (requestData *UserRequest) ToUserCore() users.Core {
@@ -17,5 +18,6 @@ func (requestData *UserRequest) ToUserCore() users.Core {
 		Password: requestData.Password,
 		Fullname: requestData.Fullname,
 		Phone:    requestData.Phone,
+		Role:     requestData.Role,
 	}
 }
