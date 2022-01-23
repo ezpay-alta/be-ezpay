@@ -12,4 +12,5 @@ RUN go build -o app
 FROM alpine:3.15 as production
 RUN apk add --no-cache ca-certificates
 COPY --from=builder app .
+EXPOSE 8080
 CMD ./app
