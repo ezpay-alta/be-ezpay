@@ -39,5 +39,5 @@ jobs:
           docker rm -f be_service
           docker rmi -f $(docker images -a -q)
           docker pull dwiwidianto/be-ezpay:latest
-          docker run -d --name be_service -p 80:80 dwiwidianto/be-ezpay:latest
+          docker run -d --name be_service -p 80:8000 dwiwidianto/be-ezpay:latest
 
