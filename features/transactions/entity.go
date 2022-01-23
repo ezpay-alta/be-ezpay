@@ -35,7 +35,7 @@ type Core struct {
 // }
 
 type Business interface {
-	CreateTransaction(data Core) error
+	CreateTransaction(data Core) (int, error)
 	GetAllTransactions() ([]Core, error)
 	GetTransactionById(transactionId int) (Core, error)
 	UpdateTransactionById(transactionId int, data Core) error
@@ -43,7 +43,7 @@ type Business interface {
 }
 
 type Data interface {
-	CreateTransaction(data Core) error
+	CreateTransaction(data Core) (int, error)
 	GetAllTransactions() ([]Core, error)
 	GetTransactionById(transactionId int) (Core, error)
 	UpdateTransactionById(transactionId int, data Core) error

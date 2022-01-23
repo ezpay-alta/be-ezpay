@@ -9,7 +9,14 @@ require (
 	gorm.io/gorm v1.22.4
 )
 
-require github.com/xendit/xendit-go v1.0.5 // indirect
+require (
+	github.com/go-playground/locales v0.14.0 // indirect
+	github.com/go-playground/universal-translator v0.18.0 // indirect
+	github.com/go-playground/validator/v10 v10.10.0 // indirect
+	github.com/google/uuid v1.3.0 // indirect
+	github.com/leodido/go-urn v1.2.1 // indirect
+	github.com/xendit/xendit-go v1.0.5 // indirect
+)
 
 require (
 	github.com/go-sql-driver/mysql v1.6.0 // indirect

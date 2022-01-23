@@ -20,17 +20,17 @@ func NewTransactionBusiness(transactionData transactions.Data, productData produ
 	}
 }
 
-func (tu *transactionUsecase) CreateTransaction(transaction transactions.Core) error {
+func (tu *transactionUsecase) CreateTransaction(transaction transactions.Core) (int, error) {
 	product, _ := tu.ProductData.GetProductById(transaction.ProductID)
 	promo, _ := tu.PromoData.GetPromoById(transaction.PromoID)
 	total := product.Price - promo.Amount
 	transaction.Total = total
-	err := tu.TransactionData.CreateTransaction(transaction)
+	transactionId, err := tu.TransactionData.CreateTransaction(transaction)
 	if err != nil {
-		return err
+		return 0, err
 	}
 
-	return nil
+	return transactionId, nil
 }
 
 func (pu *transactionUsecase) GetAllTransactions() ([]transactions.Core, error) {

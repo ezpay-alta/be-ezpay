@@ -5,7 +5,6 @@ import (
 )
 
 type TransactionRequest struct {
-	ID              int    `json:"id"`
 	UserID          int    `json:"user_id"`
 	ProductID       int    `json:"product_id"`
 	PromoID         int    `json:"promo_id"`
@@ -16,7 +15,6 @@ type TransactionRequest struct {
 
 func (requestData *TransactionRequest) ToTransactionCore(userId int) transactions.Core {
 	return transactions.Core{
-		ID:              requestData.ID,
 		UserID:          userId,
 		ProductID:       requestData.ProductID,
 		PromoID:         requestData.PromoID,

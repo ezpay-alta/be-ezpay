@@ -5,11 +5,16 @@ import (
 	"ezpay/features/transactions"
 	"ezpay/features/transactions/presentation/request"
 	"ezpay/features/transactions/presentation/response"
+	"log"
 	"net/http"
+	"os"
 
 	"strconv"
 
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
+	"github.com/xendit/xendit-go"
+	"github.com/xendit/xendit-go/invoice"
 )
 
 type TransactionHandler struct {
@@ -34,13 +39,41 @@ func (ph *TransactionHandler) CreateTransactionHandler(e echo.Context) error {
 
 	e.Bind(&transactionData)
 
-	err = ph.TransactionBusiness.CreateTransaction(transactionData.ToTransactionCore(userId))
+	transactionId, err := ph.TransactionBusiness.CreateTransaction(transactionData.ToTransactionCore(userId))
 	if err != nil {
 		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"status":  "fail",
 			"message": "can not create transaction",
 			"err":     err.Error(),
 		})
+	}
+
+	transaction, _ := ph.TransactionBusiness.GetTransactionById(transactionId)
+
+	xendit.Opt.SecretKey = os.Getenv("XENDIT_SECRET_KEY")
+
+	data := invoice.CreateParams{
+		ExternalID:      uuid.NewString(),
+		Amount:          float64(transaction.Total),
+		PayerEmail:      transaction.User.Email,
+		Description:     transaction.Product.Name,
+		ShouldSendEmail: &[]bool{true}[0],
+		Customer: xendit.InvoiceCustomer{
+			GivenNames:   transaction.User.Fullname,
+			Email:        transaction.User.Email,
+			MobileNumber: transaction.User.Phone,
+		},
+		CustomerNotificationPreference: xendit.InvoiceCustomerNotificationPreference{
+			InvoiceCreated:  []string{"whatsapp", "sms", "email"},
+			InvoiceReminder: []string{"whatsapp", "sms", "email"},
+			InvoicePaid:     []string{"whatsapp", "sms", "email"},
+			InvoiceExpired:  []string{"whatsapp", "sms", "email"},
+		},
+	}
+
+	_, err = invoice.Create(&data)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	return e.JSON(http.StatusOK, map[string]interface{}{

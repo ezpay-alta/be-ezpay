@@ -17,15 +17,15 @@ func NewMysqlTransactionRepository(conn *gorm.DB) transactions.Data {
 	}
 }
 
-func (ar *mysqlTransactionRepository) CreateTransaction(transaction transactions.Core) error {
+func (ar *mysqlTransactionRepository) CreateTransaction(transaction transactions.Core) (int, error) {
 	transaction.Status = "PENDING"
 	recordData := ToTransactionRecord(transaction)
 	err := ar.Conn.Create(&recordData).Error
 	if err != nil {
-		return err
+		return 0, err
 	}
 
-	return nil
+	return recordData.ID, nil
 }
 
 func (ar *mysqlTransactionRepository) GetAllTransactions() ([]transactions.Core, error) {
