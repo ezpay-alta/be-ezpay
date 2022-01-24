@@ -104,14 +104,14 @@ func (ah *ProductHandler) UpdateProductByIdHandler(e echo.Context) error {
 	if err != nil {
 		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"status":  "fail",
-			"message": "can not create product",
+			"message": "can not update product",
 			"err":     "token is invalid",
 		})
 	}
 	if role != "admin" {
 		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"status":  "fail",
-			"message": "can not create product",
+			"message": "can not update product",
 			"err":     "you are not an admin",
 		})
 	}
@@ -149,14 +149,14 @@ func (uh *ProductHandler) DeleteProductByIdHandler(e echo.Context) error {
 	if err != nil {
 		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"status":  "fail",
-			"message": "can not create product",
+			"message": "can not delete product",
 			"err":     "token is invalid",
 		})
 	}
 	if role != "admin" {
 		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"status":  "fail",
-			"message": "can not create product",
+			"message": "can not delete product",
 			"err":     "you are not an admin",
 		})
 	}
@@ -283,14 +283,14 @@ func (ah *ProductHandler) UpdateProductTypeByIdHandler(e echo.Context) error {
 	if err != nil {
 		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"status":  "fail",
-			"message": "can not create product type",
+			"message": "can not update product type",
 			"err":     "token is invalid",
 		})
 	}
 	if role != "admin" {
 		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"status":  "fail",
-			"message": "can not create product type",
+			"message": "can not update product type",
 			"err":     "you are not an admin",
 		})
 	}
@@ -316,14 +316,14 @@ func (uh *ProductHandler) DeleteProductTypeByIdHandler(e echo.Context) error {
 	if err != nil {
 		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"status":  "fail",
-			"message": "can not create product type",
+			"message": "can not delete product type",
 			"err":     "token is invalid",
 		})
 	}
 	if role != "admin" {
 		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"status":  "fail",
-			"message": "can not create product type",
+			"message": "can not delete product type",
 			"err":     "you are not an admin",
 		})
 	}
