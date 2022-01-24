@@ -2,7 +2,7 @@ name: CI Backend EzPay
 
 on:
   push:
-    branches: [ development ]
+    branches: [ saddevelopment ]
 
 jobs:
   build-docker:
