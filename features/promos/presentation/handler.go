@@ -104,14 +104,14 @@ func (ah *PromoHandler) UpdatePromoByIdHandler(e echo.Context) error {
 	if err != nil {
 		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"status":  "fail",
-			"message": "can not create promo",
+			"message": "can not update promo",
 			"err":     "token is invalid",
 		})
 	}
 	if role != "admin" {
 		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"status":  "fail",
-			"message": "can not create promo",
+			"message": "can not update promo",
 			"err":     "you are not an admin",
 		})
 	}
@@ -149,14 +149,14 @@ func (uh *PromoHandler) DeletePromoByIdHandler(e echo.Context) error {
 	if err != nil {
 		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"status":  "fail",
-			"message": "can not create promo",
+			"message": "can not delete promo",
 			"err":     "token is invalid",
 		})
 	}
 	if role != "admin" {
 		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"status":  "fail",
-			"message": "can not create promo",
+			"message": "can not delete promo",
 			"err":     "you are not an admin",
 		})
 	}

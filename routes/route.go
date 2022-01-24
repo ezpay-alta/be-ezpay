@@ -2,20 +2,29 @@ package routes
 
 import (
 	"ezpay/factory"
+	"ezpay/features/middlewares"
 	"net/http"
+	"os"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
+
+var ACCESS_TOKEN_KEY string = os.Getenv("ACCESS_TOKEN_KEY")
 
 func New() *echo.Echo {
 	n := echo.New()
 
 	e := n.Group("/v1")
-	// admin := e.Group("admin")
 
 	e.GET("", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
+
+	configJWT := middleware.JWTConfig{
+		SigningKey: []byte(ACCESS_TOKEN_KEY),
+		Claims:     &middlewares.JwtCustomClaims{},
+	}
 
 	presenter := factory.Init()
 
@@ -27,28 +36,28 @@ func New() *echo.Echo {
 	eUsers.DELETE("/:userId", presenter.UserHandler.DeleteUserHandler)
 
 	eProduct := e.Group("/products")
-	eProduct.POST("", presenter.ProductHandler.CreateProductHandler)
+	eProduct.POST("", presenter.ProductHandler.CreateProductHandler, middleware.JWTWithConfig(configJWT))
 	eProduct.GET("", presenter.ProductHandler.GetAllProductHandler)
 	eProduct.GET("/:productId", presenter.ProductHandler.GetProductByIdHandler)
-	eProduct.PATCH("/:productId", presenter.ProductHandler.UpdateProductByIdHandler)
-	eProduct.DELETE("/:productId", presenter.ProductHandler.DeleteProductByIdHandler)
+	eProduct.PATCH("/:productId", presenter.ProductHandler.UpdateProductByIdHandler, middleware.JWTWithConfig(configJWT))
+	eProduct.DELETE("/:productId", presenter.ProductHandler.DeleteProductByIdHandler, middleware.JWTWithConfig(configJWT))
 
 	eType := eProduct.Group("/type")
-	eType.POST("", presenter.ProductHandler.CreateProductTypeHandler)
+	eType.POST("", presenter.ProductHandler.CreateProductTypeHandler, middleware.JWTWithConfig(configJWT))
 	eType.GET("", presenter.ProductHandler.GetAllTypeProductHandler)
 	eType.GET("/:typeId", presenter.ProductHandler.GetProductTypeByIdHandler)
-	eType.PATCH("/:typeId", presenter.ProductHandler.UpdateProductTypeByIdHandler)
-	eType.DELETE("/:typeId", presenter.ProductHandler.DeleteProductTypeByIdHandler)
+	eType.PATCH("/:typeId", presenter.ProductHandler.UpdateProductTypeByIdHandler, middleware.JWTWithConfig(configJWT))
+	eType.DELETE("/:typeId", presenter.ProductHandler.DeleteProductTypeByIdHandler, middleware.JWTWithConfig(configJWT))
 
 	ePromo := e.Group("/promos")
-	ePromo.POST("", presenter.PromoHandler.CreatePromoHandler)
+	ePromo.POST("", presenter.PromoHandler.CreatePromoHandler, middleware.JWTWithConfig(configJWT))
 	ePromo.GET("", presenter.PromoHandler.GetAllPromoHandler)
 	ePromo.GET("/:promoId", presenter.PromoHandler.GetPromoByIdHandler)
-	ePromo.PATCH("/:promoId", presenter.PromoHandler.UpdatePromoByIdHandler)
-	ePromo.DELETE("/:promoId", presenter.PromoHandler.DeletePromoByIdHandler)
+	ePromo.PATCH("/:promoId", presenter.PromoHandler.UpdatePromoByIdHandler, middleware.JWTWithConfig(configJWT))
+	ePromo.DELETE("/:promoId", presenter.PromoHandler.DeletePromoByIdHandler, middleware.JWTWithConfig(configJWT))
 
 	eTransaction := e.Group("/transactions")
-	eTransaction.POST("", presenter.TransactionHandler.CreateTransactionHandler)
+	eTransaction.POST("", presenter.TransactionHandler.CreateTransactionHandler, middleware.JWTWithConfig(configJWT))
 	eTransaction.GET("", presenter.TransactionHandler.GetAllTransactionsHandler)
 	eTransaction.GET("/:transactionId", presenter.TransactionHandler.GetTransactionByIdHandler)
 	eTransaction.PATCH("/:transactionId", presenter.TransactionHandler.UpdateTransactionByIdHandler)
