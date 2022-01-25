@@ -3,7 +3,6 @@ module ezpay
 go 1.17
 
 require (
-	github.com/google/uuid v1.3.0
 	github.com/joho/godotenv v1.4.0
 	github.com/labstack/echo/v4 v4.6.3
 	github.com/xendit/xendit-go v1.0.5

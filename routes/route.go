@@ -3,7 +3,6 @@ package routes
 import (
 	"ezpay/factory"
 	"ezpay/features/middlewares"
-	"net/http"
 	"os"
 
 	"github.com/labstack/echo/v4"
@@ -16,10 +15,7 @@ func New() *echo.Echo {
 	n := echo.New()
 
 	e := n.Group("/v1")
-
-	e.GET("", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
+	e.Use(middleware.Logger())
 
 	configJWT := middleware.JWTConfig{
 		SigningKey: []byte(ACCESS_TOKEN_KEY),
@@ -57,7 +53,8 @@ func New() *echo.Echo {
 	ePromo.DELETE("/:promoId", presenter.PromoHandler.DeletePromoByIdHandler, middleware.JWTWithConfig(configJWT))
 
 	eTransaction := e.Group("/transactions")
-	eTransaction.POST("", presenter.TransactionHandler.CreateTransactionHandler, middleware.JWTWithConfig(configJWT))
+	eTransaction.POST("", presenter.TransactionHandler.CreateTransactionHandler)
+	eTransaction.POST("/xendit", presenter.TransactionHandler.UpdateTransactionByXenditHandler)
 	eTransaction.GET("", presenter.TransactionHandler.GetAllTransactionsHandler)
 	eTransaction.GET("/:transactionId", presenter.TransactionHandler.GetTransactionByIdHandler)
 	eTransaction.PATCH("/:transactionId", presenter.TransactionHandler.UpdateTransactionByIdHandler)
