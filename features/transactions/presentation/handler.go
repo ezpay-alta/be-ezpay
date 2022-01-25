@@ -5,13 +5,11 @@ import (
 	"ezpay/features/transactions"
 	"ezpay/features/transactions/presentation/request"
 	"ezpay/features/transactions/presentation/response"
-	"log"
 	"net/http"
 	"os"
 
 	"strconv"
 
-	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"github.com/xendit/xendit-go"
 	"github.com/xendit/xendit-go/invoice"
@@ -53,7 +51,7 @@ func (ph *TransactionHandler) CreateTransactionHandler(e echo.Context) error {
 	xendit.Opt.SecretKey = os.Getenv("XENDIT_SECRET_KEY")
 
 	data := invoice.CreateParams{
-		ExternalID:      uuid.NewString(),
+		ExternalID:      strconv.Itoa(transactionId),
 		Amount:          float64(transaction.Total),
 		PayerEmail:      transaction.User.Email,
 		Description:     transaction.Product.Name,
@@ -71,10 +69,7 @@ func (ph *TransactionHandler) CreateTransactionHandler(e echo.Context) error {
 		},
 	}
 
-	_, err = invoice.Create(&data)
-	if err != nil {
-		log.Fatal(err)
-	}
+	invoice.Create(&data)
 
 	return e.JSON(http.StatusOK, map[string]interface{}{
 		"status":  "success",
@@ -185,6 +180,31 @@ func (uh *TransactionHandler) DeleteTransactionByIdHandler(e echo.Context) error
 	return e.JSON(http.StatusOK, map[string]interface{}{
 		"status":  "success",
 		"message": "delete transaction",
+	})
+
+}
+
+func (ah *TransactionHandler) UpdateTransactionByXenditHandler(e echo.Context) error {
+
+	if e.Request().Header.Get("x-callback-token") != os.Getenv("X_CALLBACK_TOKEN") {
+		return e.NoContent(http.StatusForbidden)
+	}
+
+	transactionData := request.XenditRequest{}
+	e.Bind(&transactionData)
+
+	err := ah.TransactionBusiness.UpdateTransactionById(transactionData.ToTransactionCore().ID, transactionData.ToTransactionCore())
+	if err != nil {
+		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"status":  "fail",
+			"message": "can not update transaction",
+			"err":     err.Error(),
+		})
+	}
+
+	return e.JSON(http.StatusOK, map[string]interface{}{
+		"status":  "success",
+		"message": "update transaction",
 	})
 
 }

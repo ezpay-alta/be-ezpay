@@ -58,8 +58,11 @@ func (ar *mysqlTransactionRepository) UpdateTransactionById(transactionId int, d
 		return err
 	}
 
-	if data.Status != "" {
-		transaction.Status = data.Status
+	if data.Status == "PAID" {
+		transaction.Status = "SUCCESS"
+	}
+	if data.Status == "EXPIRED" {
+		transaction.Status = "FAILED"
 	}
 	if data.UserID != 0 {
 		transaction.UserID = data.UserID
