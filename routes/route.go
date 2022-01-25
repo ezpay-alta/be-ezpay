@@ -2,20 +2,16 @@ package routes
 
 import (
 	"ezpay/factory"
-	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func New() *echo.Echo {
 	n := echo.New()
 
 	e := n.Group("/v1")
-	// admin := e.Group("admin")
-
-	e.GET("", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
+	e.Use(middleware.Logger())
 
 	presenter := factory.Init()
 
@@ -49,6 +45,7 @@ func New() *echo.Echo {
 
 	eTransaction := e.Group("/transactions")
 	eTransaction.POST("", presenter.TransactionHandler.CreateTransactionHandler)
+	eTransaction.POST("/xendit", presenter.TransactionHandler.UpdateTransactionByXenditHandler)
 	eTransaction.GET("", presenter.TransactionHandler.GetAllTransactionsHandler)
 	eTransaction.GET("/:transactionId", presenter.TransactionHandler.GetTransactionByIdHandler)
 	eTransaction.PATCH("/:transactionId", presenter.TransactionHandler.UpdateTransactionByIdHandler)
