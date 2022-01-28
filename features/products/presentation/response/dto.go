@@ -5,11 +5,8 @@ import (
 )
 
 type ProductResponse struct {
-	ID      int          `json:"id"`
-	Name    string       `json:"name"`
-	Type    TypeResponse `json:"type"`
-	Nominal int          `json:"nominal"`
-	Price   int          `json:"price"`
+	ID   int    `json:"id"`
+	Name string `json:"name"`
 }
 
 type TypeResponse struct {
@@ -20,11 +17,8 @@ type TypeResponse struct {
 
 func ToProductResponse(product products.Core) ProductResponse {
 	return ProductResponse{
-		ID:      product.ID,
-		Name:    product.Name,
-		Type:    ToTypeResponse(product.Type),
-		Nominal: product.Nominal,
-		Price:   product.Price,
+		ID:   product.ID,
+		Name: product.Name,
 	}
 }
 

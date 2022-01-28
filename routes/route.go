@@ -25,6 +25,9 @@ func New() *echo.Echo {
 
 	presenter := factory.Init()
 
+	eUser := e.Group("/user")
+	eUser.GET("/transactions", presenter.TransactionHandler.GetTransactionByUserIdHandler, middleware.JWTWithConfig(configJWT))
+
 	eUsers := e.Group("/users")
 	eUsers.POST("", presenter.UserHandler.RegisterUserHandler)
 	eUsers.GET("", presenter.UserHandler.GetAllUsersHandler)

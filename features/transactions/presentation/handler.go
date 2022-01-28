@@ -123,6 +123,31 @@ func (ph *TransactionHandler) GetTransactionByIdHandler(e echo.Context) error {
 	})
 
 }
+func (ph *TransactionHandler) GetTransactionByUserIdHandler(e echo.Context) error {
+	userId, _, err := middlewares.VerifyAccessToken(e)
+	if err != nil {
+		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"status":  "fail",
+			"message": "can not create transaction",
+			"err":     "token is invalid",
+		})
+	}
+
+	data, err := ph.TransactionBusiness.GetTransactionByUserId(userId)
+	if err != nil {
+		return e.JSON(http.StatusBadRequest, map[string]interface{}{
+			"status":  "fail",
+			"message": "can not get transaction",
+			"err":     err.Error(),
+		})
+	}
+
+	return e.JSON(http.StatusOK, map[string]interface{}{
+		"status": "success",
+		"data":   response.ToTransactionResponseList(data),
+	})
+
+}
 
 func (ah *TransactionHandler) UpdateTransactionByIdHandler(e echo.Context) error {
 	userId, _, err := middlewares.VerifyAccessToken(e)

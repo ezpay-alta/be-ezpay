@@ -20,11 +20,11 @@ func NewMysqlTransactionRepository(conn *gorm.DB) transactions.Data {
 
 func (ar *mysqlTransactionRepository) CreateTransaction(transaction transactions.Core) (int, error) {
 	transaction.Status = "PENDING"
-	if transaction.Nominal == 0 && transaction.Bulan == 0 {
+	if transaction.Nominal == 0 && transaction.Quantity == 0 {
 		transaction.Nominal = rand.Intn(1000) * 1000
 		transaction.Total = transaction.Nominal + 2000
-	} else if transaction.Nominal == 0 && transaction.Bulan > 0 {
-		transaction.Nominal = rand.Intn(1000) * 1000 * transaction.Bulan
+	} else if transaction.Nominal == 0 && transaction.Quantity > 0 {
+		transaction.Nominal = rand.Intn(1000) * 1000 * transaction.Quantity
 		transaction.Total = transaction.Nominal + 2000
 	}
 	recordData := ToTransactionRecord(transaction)
@@ -54,6 +54,16 @@ func (ar *mysqlTransactionRepository) GetTransactionById(transactionId int) (tra
 		return ToTransactionCore(Transaction{}), err
 	}
 	return ToTransactionCore(transaction), nil
+}
+
+func (ar *mysqlTransactionRepository) GetTransactionByUserId(userId int) ([]transactions.Core, error) {
+
+	transaction := []Transaction{}
+	err := ar.Conn.Where("user_id = ?", userId).Preload(clause.Associations).Find(&transaction).Error
+	if err != nil {
+		return nil, err
+	}
+	return ToTransactionCoreList(transaction), nil
 }
 
 func (ar *mysqlTransactionRepository) UpdateTransactionById(transactionId int, data transactions.Core) error {
