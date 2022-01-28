@@ -2,7 +2,7 @@ package data
 
 import (
 	productsData "ezpay/features/products/data"
-	promosData "ezpay/features/promos/data"
+	// promosData "ezpay/features/promos/data"
 	"ezpay/features/transactions"
 	usersData "ezpay/features/users/data"
 
@@ -16,10 +16,12 @@ type Transaction struct {
 	User      usersData.User
 	ProductID int
 	Product   productsData.Product
-	PromoID   int
-	Promo     promosData.Promo
-	Total     int
-	Status    string
+	// PromoID   *int
+	// Promo     *promosData.Promo
+	Nomor   int
+	Nominal int
+	Total   int
+	Status  string
 	// PaymentMethod PaymentMethod
 }
 
@@ -46,10 +48,10 @@ func ToTransactionRecord(transaction transactions.Core) Transaction {
 		User:      usersData.ToUserRecord(transaction.User),
 		ProductID: transaction.ProductID,
 		Product:   productsData.ToProductRecord(transaction.Product),
-		PromoID:   transaction.PromoID,
-		Promo:     promosData.ToPromoRecord(transaction.Promo),
-		Total:     transaction.Total,
-		Status:    transaction.Status,
+		// PromoID:   &transaction.PromoID,
+		// Promo:     promosData.ToPromoRecord(transaction.Promo),
+		Total:  transaction.Total,
+		Status: transaction.Status,
 		// PaymentMethod: ToPaymentMethodRecord(transaction.PaymentMethod),
 	}
 }
@@ -79,10 +81,10 @@ func ToTransactionCore(transaction Transaction) transactions.Core {
 		User:      usersData.ToUserCore(transaction.User),
 		ProductID: transaction.ProductID,
 		Product:   productsData.ToProductCore(transaction.Product),
-		PromoID:   transaction.PromoID,
-		Promo:     promosData.ToPromoCore(transaction.Promo),
-		Total:     transaction.Total,
-		Status:    transaction.Status,
+		// PromoID:   *transaction.PromoID,
+		// Promo:     promosData.ToPromoCore(*transaction.Promo),
+		Total:  transaction.Total,
+		Status: transaction.Status,
 		// PaymentMethod: ToPaymentMethodCore(transaction.PaymentMethod),
 	}
 }

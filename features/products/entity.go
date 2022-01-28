@@ -24,6 +24,8 @@ type Business interface {
 
 	CreateProduct(data Core) error
 	GetAllProducts() ([]Core, error)
+	GetProductByName(name string) (int, error)
+	GetAllProductsByType(typeProduct string) ([]Core, error)
 	GetProductById(productId int) (Core, error)
 	UpdateProductById(productId int, data Core) error
 	DeleteProductById(productId int) error
@@ -38,6 +40,8 @@ type Data interface {
 
 	CreateProduct(data Core) error
 	GetAllProducts() ([]Core, error)
+	GetProductByName(name string) (int, error)
+	GetAllProductsByType(typeProduct string) ([]Core, error)
 	GetProductById(productId int) (Core, error)
 	UpdateProductById(productId int, data Core) error
 	DeleteProductById(productId int) error

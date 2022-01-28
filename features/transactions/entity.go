@@ -7,16 +7,20 @@ import (
 )
 
 type Core struct {
-	ID              int
-	UserID          int
-	User            users.Core
-	ProductID       int
-	Product         products.Core
-	PromoID         int
-	Promo           promos.Core
-	Total           int
-	Status          string
-	PaymentMethodID int
+	ID        int
+	UserID    int
+	User      users.Core
+	ProductID int
+	Product   products.Core
+	PromoID   int
+	Promo     promos.Core
+	Total     int
+	Status    string
+	Nomor     int
+	Nominal   int
+	Bulan     int
+	Jenis     string
+	Wilayah   string
 	// PaymentMethod   PaymentMethodCore
 }
 

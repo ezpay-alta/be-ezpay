@@ -73,6 +73,24 @@ func (ph *ProductHandler) GetAllProductHandler(e echo.Context) error {
 
 }
 
+func (ph *ProductHandler) GetProductByTypeHandler(e echo.Context) error {
+	typeProduct := e.QueryParam("type")
+	data, err := ph.ProductBusiness.GetAllProductsByType(typeProduct)
+	if err != nil {
+		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"status":  "fail",
+			"message": "can not get all products",
+			"err":     err.Error(),
+		})
+	}
+
+	return e.JSON(http.StatusOK, map[string]interface{}{
+		"status": "success",
+		"data":   response.ToProductResponseList(data),
+	})
+
+}
+
 func (ph *ProductHandler) GetProductByIdHandler(e echo.Context) error {
 	productId, err := strconv.Atoi(e.Param("productId"))
 	if err != nil {

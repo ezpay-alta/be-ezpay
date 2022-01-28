@@ -6,12 +6,13 @@ import (
 )
 
 type TransactionRequest struct {
-	UserID          int    `json:"user_id"`
-	ProductID       int    `json:"product_id"`
-	PromoID         int    `json:"promo_id"`
-	Total           int    `json:"total"`
-	Status          string `json:"status"`
-	PaymentMethodID int    `json:"paymentMethod_id"`
+	Product string `json:"product"`
+	Jenis   string `json:"jenis"`
+	Nomor   int    `json:"nomor"`
+	Wilayah string `json:"wilayah"`
+	Nominal int    `json:"nominal"`
+	Total   int    `json:"total"`
+	Bulan   int    `json:"bulan"`
 }
 
 type XenditRequest struct {
@@ -19,14 +20,16 @@ type XenditRequest struct {
 	Status string `json:"status"`
 }
 
-func (requestData *TransactionRequest) ToTransactionCore(userId int) transactions.Core {
+func (requestData *TransactionRequest) ToTransactionCore(userId int, productId int) transactions.Core {
 	return transactions.Core{
-		UserID:          userId,
-		ProductID:       requestData.ProductID,
-		PromoID:         requestData.PromoID,
-		Total:           requestData.Total,
-		Status:          requestData.Status,
-		PaymentMethodID: requestData.PaymentMethodID,
+		ProductID: productId,
+		UserID:    userId,
+		Total:     requestData.Total,
+		Nomor:     requestData.Nomor,
+		Wilayah:   requestData.Wilayah,
+		Nominal:   requestData.Nominal,
+		Bulan:     requestData.Bulan,
+		Jenis:     requestData.Jenis,
 	}
 }
 

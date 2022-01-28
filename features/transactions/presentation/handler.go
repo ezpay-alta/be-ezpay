@@ -2,6 +2,7 @@ package presentation
 
 import (
 	"ezpay/features/middlewares"
+	"ezpay/features/products"
 	"ezpay/features/transactions"
 	"ezpay/features/transactions/presentation/request"
 	"ezpay/features/transactions/presentation/response"
@@ -17,10 +18,11 @@ import (
 
 type TransactionHandler struct {
 	TransactionBusiness transactions.Business
+	ProductBusiness     products.Business
 }
 
-func NewTransactionHandler(transactionBusiness transactions.Business) *TransactionHandler {
-	return &TransactionHandler{TransactionBusiness: transactionBusiness}
+func NewTransactionHandler(transactionBusiness transactions.Business, productBusiness products.Business) *TransactionHandler {
+	return &TransactionHandler{TransactionBusiness: transactionBusiness, ProductBusiness: productBusiness}
 }
 
 func (ph *TransactionHandler) CreateTransactionHandler(e echo.Context) error {
@@ -37,7 +39,9 @@ func (ph *TransactionHandler) CreateTransactionHandler(e echo.Context) error {
 
 	e.Bind(&transactionData)
 
-	transactionId, err := ph.TransactionBusiness.CreateTransaction(transactionData.ToTransactionCore(userId))
+	productId, _ := ph.ProductBusiness.GetProductByName(transactionData.Product)
+
+	transactionId, err := ph.TransactionBusiness.CreateTransaction(transactionData.ToTransactionCore(userId, productId))
 	if err != nil {
 		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"status":  "fail",
@@ -142,7 +146,9 @@ func (ah *TransactionHandler) UpdateTransactionByIdHandler(e echo.Context) error
 	transactionData := request.TransactionRequest{}
 	e.Bind(&transactionData)
 
-	err = ah.TransactionBusiness.UpdateTransactionById(transactionId, transactionData.ToTransactionCore(userId))
+	productId, _ := ah.ProductBusiness.GetProductByName(transactionData.Product)
+
+	err = ah.TransactionBusiness.UpdateTransactionById(transactionId, transactionData.ToTransactionCore(userId, productId))
 	if err != nil {
 		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"status":  "fail",

@@ -98,6 +98,16 @@ func (ar *mysqlProductRepository) GetAllProducts() ([]products.Core, error) {
 	return ToProductCoreList(products), nil
 }
 
+func (ar *mysqlProductRepository) GetAllProductsByType(typeProduct string) ([]products.Core, error) {
+
+	products := []Product{}
+	err := ar.Conn.Joins("Type").Where("Type.name", typeProduct).Find(&products).Error
+	if err != nil {
+		return nil, err
+	}
+	return ToProductCoreList(products), nil
+}
+
 func (ar *mysqlProductRepository) GetProductById(productId int) (products.Core, error) {
 
 	product := Product{}
@@ -106,6 +116,16 @@ func (ar *mysqlProductRepository) GetProductById(productId int) (products.Core, 
 		return ToProductCore(Product{}), err
 	}
 	return ToProductCore(product), nil
+}
+
+func (ar *mysqlProductRepository) GetProductByName(name string) (int, error) {
+
+	product := Product{}
+	err := ar.Conn.Where("name = ?", name).First(&product).Error
+	if err != nil {
+		return 0, err
+	}
+	return product.ID, nil
 }
 
 func (ar *mysqlProductRepository) UpdateProductById(productId int, data products.Core) error {

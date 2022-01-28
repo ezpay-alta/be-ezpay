@@ -57,7 +57,7 @@ func Init() Presenter {
 	// transaction layer
 	transactionData := transactionData.NewMysqlTransactionRepository(db.DB)
 	transactionBusiness := transactionBusiness.NewTransactionBusiness(transactionData, productData, promoData)
-	transactionPresentation := transactionPresentation.NewTransactionHandler(transactionBusiness)
+	transactionPresentation := transactionPresentation.NewTransactionHandler(transactionBusiness, productBusiness)
 
 	// auth layer
 	authData := authData.NewMysqlAuthRepository(db.DB)

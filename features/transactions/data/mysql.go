@@ -2,6 +2,7 @@ package data
 
 import (
 	"ezpay/features/transactions"
+	"math/rand"
 
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -19,6 +20,13 @@ func NewMysqlTransactionRepository(conn *gorm.DB) transactions.Data {
 
 func (ar *mysqlTransactionRepository) CreateTransaction(transaction transactions.Core) (int, error) {
 	transaction.Status = "PENDING"
+	if transaction.Nominal == 0 && transaction.Bulan == 0 {
+		transaction.Nominal = rand.Intn(1000) * 1000
+		transaction.Total = transaction.Nominal + 2000
+	} else if transaction.Nominal == 0 && transaction.Bulan > 0 {
+		transaction.Nominal = rand.Intn(1000) * 1000 * transaction.Bulan
+		transaction.Total = transaction.Nominal + 2000
+	}
 	recordData := ToTransactionRecord(transaction)
 	err := ar.Conn.Create(&recordData).Error
 	if err != nil {
@@ -70,9 +78,9 @@ func (ar *mysqlTransactionRepository) UpdateTransactionById(transactionId int, d
 	if data.ProductID != 0 {
 		transaction.ProductID = data.ProductID
 	}
-	if data.PromoID != 0 {
-		transaction.PromoID = data.PromoID
-	}
+	// if data.PromoID != 0 {
+	// 	transaction.PromoID = data.PromoID
+	// }
 	if data.Total != 0 {
 		transaction.Total = data.Total
 	}

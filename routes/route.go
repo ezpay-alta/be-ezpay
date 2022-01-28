@@ -15,6 +15,7 @@ func New() *echo.Echo {
 	n := echo.New()
 
 	e := n.Group("/v1")
+	e.Use(middleware.CORS())
 	e.Use(middleware.Logger())
 
 	configJWT := middleware.JWTConfig{
@@ -33,7 +34,8 @@ func New() *echo.Echo {
 
 	eProduct := e.Group("/products")
 	eProduct.POST("", presenter.ProductHandler.CreateProductHandler, middleware.JWTWithConfig(configJWT))
-	eProduct.GET("", presenter.ProductHandler.GetAllProductHandler)
+	// eProduct.GET("", presenter.ProductHandler.GetAllProductHandler)
+	eProduct.GET("", presenter.ProductHandler.GetProductByTypeHandler)
 	eProduct.GET("/:productId", presenter.ProductHandler.GetProductByIdHandler)
 	eProduct.PATCH("/:productId", presenter.ProductHandler.UpdateProductByIdHandler, middleware.JWTWithConfig(configJWT))
 	eProduct.DELETE("/:productId", presenter.ProductHandler.DeleteProductByIdHandler, middleware.JWTWithConfig(configJWT))

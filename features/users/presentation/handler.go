@@ -33,7 +33,7 @@ func (uh *UserHandler) RegisterUserHandler(e echo.Context) error {
 
 	userId, err := uh.UserBusiness.CreateUser(userData.ToUserCore())
 	if err != nil {
-		return e.JSON(http.StatusInternalServerError, map[string]interface{}{
+		return e.JSON(http.StatusBadRequest, map[string]interface{}{
 			"status":  "fail",
 			"message": err.Error(),
 		})

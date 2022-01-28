@@ -75,6 +75,24 @@ func (pu *productUsecase) GetAllProducts() ([]products.Core, error) {
 	return products, nil
 }
 
+func (pu *productUsecase) GetAllProductsByType(typeProduct string) ([]products.Core, error) {
+	products, err := pu.ProductData.GetAllProducts()
+	if err != nil {
+		return nil, err
+	}
+
+	return products, nil
+}
+
+func (pu *productUsecase) GetProductByName(name string) (int, error) {
+	productId, err := pu.ProductData.GetProductByName(name)
+	if err != nil {
+		return 0, err
+	}
+
+	return productId, nil
+}
+
 func (pu *productUsecase) GetProductById(productId int) (products.Core, error) {
 	product, err := pu.ProductData.GetProductById(productId)
 	if err != nil {

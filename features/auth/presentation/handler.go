@@ -59,7 +59,7 @@ func (ah *AuthHandler) LoginHandler(e echo.Context) error {
 		})
 	}
 
-	return e.JSON(http.StatusBadRequest, map[string]interface{}{
+	return e.JSON(http.StatusCreated, map[string]interface{}{
 		"status":  "success",
 		"message": "login",
 		"data": response.AuthResponse{
