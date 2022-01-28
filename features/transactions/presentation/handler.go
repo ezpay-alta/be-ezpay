@@ -217,9 +217,9 @@ func (uh *TransactionHandler) DeleteTransactionByIdHandler(e echo.Context) error
 
 func (ah *TransactionHandler) UpdateTransactionByXenditHandler(e echo.Context) error {
 
-	if e.Request().Header.Get("x-callback-token") != os.Getenv("X_CALLBACK_TOKEN") {
-		return e.NoContent(http.StatusForbidden)
-	}
+	// if e.Request().Header.Get("x-callback-token") != os.Getenv("X_CALLBACK_TOKEN") {
+	// 	return e.NoContent(http.StatusForbidden)
+	// }
 
 	transactionData := request.XenditRequest{}
 	e.Bind(&transactionData)
